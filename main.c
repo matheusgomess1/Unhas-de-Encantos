@@ -302,3 +302,65 @@ void profissionaisDisponiveis() {
         }
     }
 }
+
+// Função principal
+int main() {
+    Horario* arvoreHorarios = NULL;
+    int opcao;
+
+    // Carrega os dados salvos anteriormente
+    carregarFuncionarios();
+    arvoreHorarios = carregarHorarios(arvoreHorarios);
+
+    do {
+        printf("\n===== MENU =====\n");
+        printf("1 - Marcar horário\n");
+        printf("2 - Mostrar horários\n");
+        printf("3 - Serviços\n");
+        printf("4 - Profissionais disponíveis\n");
+        printf("5 - Cadastrar novo funcionário\n");
+        printf("6 - Salvar dados\n");
+        printf("7 - Sair\n");
+        printf("================\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                marcarHorario(&arvoreHorarios);
+                break;
+            case 2:
+                mostrarHorarios(arvoreHorarios);
+                break;
+            case 3:
+                listarServicos();
+                break;
+            case 4:
+                profissionaisDisponiveis();
+                break;
+            case 5:
+                cadastrarFuncionario();
+                break;
+            case 6:
+                {
+                    FILE* arquivoHorarios = fopen("horarios.txt", "w");
+                    if (arquivoHorarios == NULL) {
+                        printf("Erro ao abrir o arquivo para salvar os horários!\n");
+                    } else {
+                        salvarHorarios(arvoreHorarios, arquivoHorarios);
+                        fclose(arquivoHorarios);
+                        printf("Horários salvos com sucesso!\n");
+                    }
+                    salvarFuncionarios();
+                }
+                break;
+            case 7:
+                printf("Volte sempre!\n");
+                break;
+            default:
+                printf("Opção inválida, tente novamente.\n");
+        }
+    } while (opcao != 7);
+
+    return 0;
+}
