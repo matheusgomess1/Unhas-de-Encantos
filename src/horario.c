@@ -32,3 +32,16 @@ Horario* carregarHorario(Horario* root) {
     fclose(arquivo);
     return root;
 }
+
+// Função para criar um novo nó AVL com informações do cliente e serviço
+Horario* novoHorario(int dia, int hora, const char* nomeCliente, const char* servico) {
+    Horario* horario = (Horario*)malloc(sizeof(Horario));
+    horario->diaSemana = dia;
+    horario->horario = hora;
+    strcpy(horario->nomeCliente, nomeCliente);
+    strcpy(horario->servico, servico);
+    horario->esquerda = NULL;
+    horario->direita = NULL;
+    horario->altura = 1; // Novo nó é inicialmente uma folha
+    return horario;
+}
