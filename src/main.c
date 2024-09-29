@@ -10,7 +10,7 @@ int main() {
     int opcao;
 
     // Inicializa a heap de funcionários e carrega dados de arquivo, se houver
-
+    
     carregarFuncionarios();
     arvoreHorarios = carregarHorario(arvoreHorarios);
 
