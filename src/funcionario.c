@@ -79,3 +79,16 @@ Funcionario removerFuncionario() {
 
     return removido;
 }
+
+// Função para mostrar os funcionários (ordem não garantida)
+void mostrarFuncionarios() {
+    if (totalFuncionarios == 0) {
+        printf("Nenhum funcionário cadastrado.\n");
+        return;
+    }
+
+    printf("Funcionários disponíveis:\n");
+    for (int i = 0; i < totalFuncionarios; i++) {
+        printf("%d. %s - %s\n", i + 1, heap[i].nome, heap[i].cargo);
+    }
+}
