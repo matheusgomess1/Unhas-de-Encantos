@@ -17,12 +17,11 @@ void salvarDados(Horario* arvoreHorarios) {
     }
 }
 
-// Função para salvar todos os horários em um arquivo
+/// Função para salvar todos os horários em um arquivo
 void salvarHorarios(Horario* root, FILE* arquivo) {
     if (root != NULL) {
         salvarHorarios(root->esquerda, arquivo);
-        fprintf(arquivo, "Dia %d, Horario: %d:00, Cliente: %s, Serviço: %s\n", 
-            root->diaSemana, root->horario, root->nomeCliente, root->servico); // Salva dia e horário no arquivo
+        fprintf(arquivo, "Dia %d Hora %d Cliente %s Serviço %s\n", root->diaSemana, root->horario, root->nomeCliente, root->servico);
         salvarHorarios(root->direita, arquivo);
     }
 }
@@ -39,7 +38,11 @@ Horario* carregarHorario(Horario* root) {
     char nomeCliente[100];
     char servico[100];
 
-    while (fscanf(arquivo, "%d %d %s %s", &dia, &hora, nomeCliente, servico) == 4) {
+    // Print de depuração
+    printf("Carregando horários do arquivo...\n");
+
+    // Lê os horários do arquivo e adiciona na árvore
+    while (fscanf(arquivo, "Dia %d Hora %d Cliente %s Serviço %s", &dia, &hora, nomeCliente, servico) == 4) {
         root = adicionarHorario(root, dia, hora, nomeCliente, servico);
     }
 
