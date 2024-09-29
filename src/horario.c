@@ -117,3 +117,25 @@ Horario* balancearNo(Horario* node) {
     }
     return node; // Nó já balanceado
 }
+
+// Função para adicionar um novo horário na árvore AVL com nome e serviço
+Horario* adicionarHorario(Horario* node, int dia, int hora, const char* nomeCliente, const char* servico) {
+    // 1. Inserir como em uma árvore binária de busca normal
+    if (node == NULL)
+        return novoHorario(dia, hora, nomeCliente, servico);
+
+    if (dia < node->diaSemana || (dia == node->diaSemana && hora < node->horario))
+        node->esquerda = adicionarHorario(node->esquerda, dia, hora, nomeCliente, servico);
+    else if (dia > node->diaSemana || (dia == node->diaSemana && hora > node->horario))
+        node->direita = adicionarHorario(node->direita, dia, hora, nomeCliente, servico);
+    else // Se o horário já existir, não faz nada
+        return node;
+
+    // 2. Balancear a árvore AVL
+    node = balancearNo(node);
+
+    // 3. Salvar a árvore atualizada em um arquivo
+   salvarHorarios(node, fopen("horarios.txt", "w"));
+
+    return node;
+}
