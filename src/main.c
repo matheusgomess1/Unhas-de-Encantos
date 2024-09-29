@@ -13,7 +13,7 @@ int main() {
     
     carregarFuncionarios();
     arvoreHorarios = carregarHorario(arvoreHorarios);
-    
+
     // Verificar se a árvore está carregada corretamente
     if (arvoreHorarios == NULL) {
         printf("Nenhum horário encontrado.\n");
@@ -24,18 +24,21 @@ int main() {
 
     do {
         // Exibe o menu principal
+        system("cls");
         printf("\n===== MENU =====\n");
         printf("1 - Marcar horário\n");
         printf("2 - Mostrar horários\n");
-        printf("3 - Serviços\n");
-        printf("4 - Profissionais disponíveis\n");
-        printf("5 - Cadastrar novo funcionário\n");
-        printf("6 - Remover funcionário\n");
-        printf("7 - Salvar dados\n");
-        printf("8 - Sair\n");
+        printf("3 - Editar horário\n");
+        printf("4 - Remover horário\n");
+        printf("5 - Serviços\n");
+        printf("6 - Profissionais disponíveis\n");
+        printf("7 - Cadastrar novo funcionário\n");
+        printf("8 - Remover funcionário\n");
+        printf("9 - Sair\n");
         printf("================\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
+        system("cls");
 
         // Executa a função correspondente à opção escolhida
         switch (opcao) {
