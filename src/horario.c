@@ -267,9 +267,37 @@ void mostrarHorarios(Horario* root) {
     mostrarHorarios(root->esquerda);
 
     // Exibe os dados do nó atual
-    printf("Dia %d, Horario: %d:00, Cliente: %s, Serviço: %s\n", 
+    printf("Dia %d, Horário: %d:00, Cliente: %s, Serviço: %s\n",
            root->diaSemana, root->horario, root->nomeCliente, root->servico);
 
     // Percorre a subárvore da direita
     mostrarHorarios(root->direita);
+}
+
+// Função para remover um horário com base na entrada do usuário
+void removerHorarioUsuario(Horario** root) {
+    int dia, hora;
+    printf("Digite o dia da semana do horário a ser removido: ");
+    scanf("%d", &dia);
+    printf("Digite o horário a ser removido (formato 24h): ");
+    scanf("%d", &hora);
+
+    *root = removerHorario(*root, dia, hora);
+    printf("Horário removido com sucesso!\n");
+}
+
+// Função para liberar a memória alocada para a árvore de horários
+void liberarHorarios(Horario* root) {
+    if (root == NULL) {
+        return;
+    }
+
+    // Libera a subárvore à esquerda
+    liberarHorarios(root->esquerda);
+
+    // Libera a subárvore à direita
+    liberarHorarios(root->direita);
+
+    // Libera o nó atual
+    free(root);
 }
