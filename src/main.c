@@ -20,11 +20,11 @@ int main() {
     } else {
         printf("Árvore de horários carregada com sucesso!\n");
     }
-    system("pause");
+    getchar();
 
     do {
         // Exibe o menu principal
-        system("cls");
+        system("clear");
         printf("\n===== MENU =====\n");
         printf("1 - Marcar horário\n");
         printf("2 - Mostrar horários\n");
@@ -38,7 +38,7 @@ int main() {
         printf("================\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
-        system("cls");
+        system("clear");
 
         // Executa a função correspondente à opção escolhida
         switch (opcao) {
@@ -46,7 +46,7 @@ int main() {
                 // Marcar horário com nome do cliente e serviço
                 marcarHorario(&arvoreHorarios);
                 salvarDados(arvoreHorarios);
-                system("pause");
+                getchar();
                 break;
             }
             case 2:
@@ -55,8 +55,8 @@ int main() {
                 }
             else{
                  mostrarHorarios(arvoreHorarios);
+                 getchar();
                 }
-                system("pause");
                 break;
             case 3: {
                 // Editar um horário existente
@@ -67,22 +67,22 @@ int main() {
                 scanf("%d", &hora);
                 editarHorario(arvoreHorarios, dia, hora);
                 salvarDados(arvoreHorarios);
-                system("pause");
+                getchar();
                 break;
             }
             case 4:
                 // Remover um horário específico
                 removerHorarioUsuario(&arvoreHorarios);
                 salvarDados(arvoreHorarios);
-                system("pause");
+                getchar();
                 break;
             case 5:
                 listarServicos();
-                system("pause");
+                getchar();
                 break;
             case 6:
                 mostrarFuncionarios();
-                system("pause");
+                getchar();
                 break;
             case 7: {
                 char nome[50], cargo[50];
@@ -93,7 +93,7 @@ int main() {
                 inserirFuncionario(nome, cargo);
                 printf("Funcionário cadastrado com sucesso.\n");
                 salvarFuncionarios();
-                system("pause");
+                getchar();
                 break;
             }
             case 8: {
@@ -102,7 +102,7 @@ int main() {
                     printf("Funcionário removido: %s - %s\n", removido.nome, removido.cargo);
                 }
                 salvarFuncionarios();
-                system("pause");
+                getchar();
                 break;
             }
             case 9:
@@ -112,7 +112,7 @@ int main() {
                 scanf("%d", &opcao);
                 if (opcao == 1)
                 {
-                    system("cls");
+                    system("clear");
                     printf("\n\n==========================================");
                     printf("\n     OBRIGADO POR USAR NOSSO SISTEMA!!       ");
                     printf("\n==========================================\n");
@@ -121,7 +121,7 @@ int main() {
                 break;
             default:
                 printf("Opção inválida, tente novamente.\n");
-                system("pause");
+                getchar();
         }
     } while (opcao != 9);
     return opcao;
