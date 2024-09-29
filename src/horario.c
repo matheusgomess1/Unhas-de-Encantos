@@ -12,3 +12,23 @@ void salvarHorarios(Horario* root, FILE* arquivo) {
         salvarHorarios(root->direita, arquivo);
     }
 }
+
+// Função para carregar horários de um arquivo
+Horario* carregarHorario(Horario* root) {
+    FILE* arquivo = fopen("horarios.txt", "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo de horários.\n");
+        return root;
+    }
+
+    int dia, hora;
+    char nomeCliente[100];
+    char servico[100];
+
+    while (fscanf(arquivo, "%d %d %s %s", &dia, &hora, nomeCliente, servico) == 4) {
+        root = adicionarHorario(root, dia, hora, nomeCliente, servico);
+    }
+
+    fclose(arquivo);
+    return root;
+}
