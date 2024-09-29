@@ -94,6 +94,37 @@ Horario* removerHorario(Horario* root, int dia, int hora) {
     return root;
 }
 
+void editarHorario(Horario* root, int dia, int hora) {
+    if (root == NULL) {
+        printf("Horário não encontrado!\n");
+        return;
+    }
+
+    // Buscar o horário a ser editado
+    if (dia < root->diaSemana || (dia == root->diaSemana && hora < root->horario))
+        editarHorario(root->esquerda, dia, hora);
+    else if (dia > root->diaSemana || (dia == root->diaSemana && hora > root->horario))
+        editarHorario(root->direita, dia, hora);
+    else {
+        // Encontrou o horário a ser editado
+        printf("Horário encontrado! Editando...\n");
+        printf("Nome atual: %s, Serviço atual: %s\n", root->nomeCliente, root->servico);
+        
+        // Solicita novos dados para o horário
+        printf("Digite o novo nome do cliente: ");
+        scanf(" %[^\n]s", root->nomeCliente);
+
+        printf("Digite o novo serviço: ");
+        scanf(" %[^\n]s", root->servico);
+
+        printf("Horário atualizado com sucesso!\n");
+
+        // Salvar alterações no arquivo
+        FILE* arquivo = fopen("horarios.txt", "w");
+        salvarHorarios(root, arquivo);
+        fclose(arquivo);
+    }
+}
 
 // Função para criar um novo nó AVL com informações do cliente e serviço
 Horario* novoHorario(int dia, int hora, const char* nomeCliente, const char* servico) {
