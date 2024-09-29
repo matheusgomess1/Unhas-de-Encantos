@@ -50,6 +50,51 @@ Horario* carregarHorario(Horario* root) {
     return root;
 }
 
+// Função para remover um horário específico
+Horario* removerHorario(Horario* root, int dia, int hora) {
+    if (root == NULL)
+        return root;
+
+    // Busca o nó a ser removido
+    if (dia < root->diaSemana || (dia == root->diaSemana && hora < root->horario))
+        root->esquerda = removerHorario(root->esquerda, dia, hora);
+    else if (dia > root->diaSemana || (dia == root->diaSemana && hora > root->horario))
+        root->direita = removerHorario(root->direita, dia, hora);
+    else {
+        // Encontrou o nó a ser removido
+        if (root->esquerda == NULL || root->direita == NULL) {
+            Horario* temp = root->esquerda ? root->esquerda : root->direita;
+            free(root);
+            return temp;
+        } else {
+            // Nó com dois filhos: obter o menor valor na subárvore direita
+            Horario* temp = root->direita;
+            while (temp->esquerda != NULL)
+                temp = temp->esquerda;
+
+            // Copiar o valor do sucessor
+            root->diaSemana = temp->diaSemana;
+            root->horario = temp->horario;
+            strcpy(root->nomeCliente, temp->nomeCliente);
+            strcpy(root->servico, temp->servico);
+
+            // Remover o sucessor
+            root->direita = removerHorario(root->direita, temp->diaSemana, temp->horario);
+        }
+    }
+
+    // Balancear a árvore após a remoção
+    root = balancearNo(root);
+
+    // Atualizar o arquivo após a remoção
+    FILE* arquivo = fopen("horarios.txt", "w");
+    salvarHorarios(root, arquivo);
+    fclose(arquivo);
+
+    return root;
+}
+
+
 // Função para criar um novo nó AVL com informações do cliente e serviço
 Horario* novoHorario(int dia, int hora, const char* nomeCliente, const char* servico) {
     Horario* horario = (Horario*)malloc(sizeof(Horario));
