@@ -46,3 +46,36 @@ void inserirFuncionario(char nome[], char cargo[]) {
         i = (i - 1) / 2;
     }
 }
+
+// Função para remover o funcionário com o cargo de menor prioridade (raiz da heap)
+Funcionario removerFuncionario() {
+    if (totalFuncionarios == 0) {
+        printf("Nenhum funcionário disponível para remoção.\n");
+        Funcionario vazio;
+        strcpy(vazio.nome, "");
+        strcpy(vazio.cargo, "");
+        return vazio;
+    }
+
+    Funcionario removido = heap[0];
+    heap[0] = heap[totalFuncionarios - 1];
+    totalFuncionarios--;
+
+    // Realiza o "down-heap" para manter a propriedade de Min-Heap
+    int i = 0;
+    while (2 * i + 1 < totalFuncionarios) {
+        int menorFilho = 2 * i + 1; // Filho esquerdo
+        if (menorFilho + 1 < totalFuncionarios && compararFuncionarios(heap[menorFilho], heap[menorFilho + 1]) > 0) {
+            menorFilho++; // Se o filho direito for menor, aponta para ele
+        }
+
+        if (compararFuncionarios(heap[i], heap[menorFilho]) > 0) {
+            trocarFuncionarios(i, menorFilho);
+            i = menorFilho;
+        } else {
+            break;
+        }
+    }
+
+    return removido;
+}
