@@ -7,12 +7,20 @@
 // Função principal para executar o programa
 int main() {
     Horario* arvoreHorarios = NULL; // Ponteiro para a raiz da árvore AVL de horários
-    int opcao;
+    int opcao = 0;
 
     // Inicializa a heap de funcionários e carrega dados de arquivo, se houver
     
     carregarFuncionarios();
     arvoreHorarios = carregarHorario(arvoreHorarios);
+    
+    // Verificar se a árvore está carregada corretamente
+    if (arvoreHorarios == NULL) {
+        printf("Nenhum horário encontrado.\n");
+    } else {
+        printf("Árvore de horários carregada com sucesso!\n");
+    }
+    system("pause");
 
     do {
         // Exibe o menu principal
