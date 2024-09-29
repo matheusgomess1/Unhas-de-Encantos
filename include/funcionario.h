@@ -16,16 +16,9 @@ void mostrarFuncionarios();
 void inserirFuncionario(char nome[], char cargo[]);
 Funcionario removerFuncionario();
 void salvarFuncionarios();
-
-// Funções de manipulação de heap binária
-
 int compararFuncionarios(Funcionario f1, Funcionario f2);
 void trocarFuncionarios(int i, int j);
 
- // Remove o funcionário com a maior prioridade (primeiro na heap)
-
-
-// Funções de armazenamento em arquivos
 
 
 
