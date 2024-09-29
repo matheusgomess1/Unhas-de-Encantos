@@ -139,3 +139,44 @@ Horario* adicionarHorario(Horario* node, int dia, int hora, const char* nomeClie
 
     return node;
 }
+
+// Função para permitir que o usuário marque um horário
+void marcarHorario(Horario** root) {
+    int dia, hora;
+    char nomeCliente[50], servico[50];
+
+    // Solicita as informações ao usuário
+    printf("Digite o dia da semana (0 = Domingo, 1 = Segunda, ..., 6 = Sábado): ");
+    scanf("%d", &dia);
+
+    printf("Digite o horário desejado (formato 24h, por exemplo, 14 para 14:00): ");
+    scanf("%d", &hora);
+
+    printf("Digite o nome do cliente: ");
+    scanf(" %[^\n]s", nomeCliente);  // Lê uma string com espaços
+
+    printf("Digite o serviço desejado: ");
+    scanf(" %[^\n]s", servico);  // Lê uma string com espaços
+
+    // Adiciona o horário na árvore AVL
+    *root = adicionarHorario(*root, dia, hora, nomeCliente, servico);
+    printf("Horário marcado com sucesso para %s às %d:00 no dia %d.\n", nomeCliente, hora, dia);
+}
+
+
+// Função para exibir todos os horários já marcados
+void mostrarHorarios(Horario* root) {
+    if (root == NULL) {
+        return;
+    }
+
+    // Percorre a subárvore da esquerda
+    mostrarHorarios(root->esquerda);
+
+    // Exibe os dados do nó atual
+    printf("Dia %d, Horario: %d:00, Cliente: %s, Serviço: %s\n", 
+           root->diaSemana, root->horario, root->nomeCliente, root->servico);
+
+    // Percorre a subárvore da direita
+    mostrarHorarios(root->direita);
+}
