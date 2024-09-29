@@ -3,6 +3,20 @@
 #include <string.h>
 #include "/home/neto/Documentos/Projeto/include/horario.h"
 
+
+// Função para salvar os dados dos horários e funcionários em arquivos
+void salvarDados(Horario* arvoreHorarios) {
+    // Abrir o arquivo para salvar os horários
+    FILE* arquivoHorarios = fopen("horarios.txt", "w");
+    if (arquivoHorarios == NULL) {
+        printf("Erro ao abrir o arquivo para salvar os horários!\n");
+    } else {
+        salvarHorarios(arvoreHorarios, arquivoHorarios); // Salvar horários na árvore AVL no arquivo
+        fclose(arquivoHorarios);
+        printf("Horários salvos com sucesso!\n");
+    }
+}
+
 // Função para salvar todos os horários em um arquivo
 void salvarHorarios(Horario* root, FILE* arquivo) {
     if (root != NULL) {
