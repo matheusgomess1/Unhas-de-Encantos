@@ -44,22 +44,25 @@ int main() {
         switch (opcao) {
             case 1: {
                 // Marcar horário com nome do cliente e serviço
+                getchar();
                 marcarHorario(&arvoreHorarios);
                 salvarDados(arvoreHorarios);
                 getchar();
                 break;
             }
             case 2:
+                getchar();
             if (arvoreHorarios == NULL) {
                 printf("Nenhum horário encontrado.\n");
                 }
             else{
                  mostrarHorarios(arvoreHorarios);
-                 getchar();
                 }
+                getchar();
                 break;
             case 3: {
                 // Editar um horário existente
+                getchar();
                 int dia, hora;
                 printf("Digite o dia da semana do horário a ser editado (1-7): ");
                 scanf("%d", &dia);
@@ -72,19 +75,23 @@ int main() {
             }
             case 4:
                 // Remover um horário específico
+                getchar();
                 removerHorarioUsuario(&arvoreHorarios);
                 salvarDados(arvoreHorarios);
                 getchar();
                 break;
             case 5:
+                getchar();
                 listarServicos();
                 getchar();
                 break;
             case 6:
+                getchar();
                 mostrarFuncionarios();
                 getchar();
                 break;
             case 7: {
+                getchar();
                 char nome[50], cargo[50];
                 printf("Digite o nome do novo funcionário: ");
                 scanf("%s", nome);
@@ -97,6 +104,7 @@ int main() {
                 break;
             }
             case 8: {
+                getchar();
                 Funcionario removido = removerFuncionario();
                 if (strcmp(removido.nome, "") != 0) {
                     printf("Funcionário removido: %s - %s\n", removido.nome, removido.cargo);
