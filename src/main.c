@@ -7,57 +7,91 @@
 // Função principal para executar o programa
 int main() {
     Horario* arvoreHorarios = NULL; // Ponteiro para a raiz da árvore AVL de horários
-    int opcao;
+    int opcao = 0;
 
     // Inicializa a heap de funcionários e carrega dados de arquivo, se houver
     
     carregarFuncionarios();
     arvoreHorarios = carregarHorario(arvoreHorarios);
 
+    // Verificar se a árvore está carregada corretamente
+    if (arvoreHorarios == NULL) {
+        printf("Nenhum horário encontrado.\n");
+    } else {
+        printf("Árvore de horários carregada com sucesso!\n");
+    }
+    getchar();
+
     do {
         // Exibe o menu principal
+        system("clear");
         printf("\n===== MENU =====\n");
         printf("1 - Marcar horário\n");
         printf("2 - Mostrar horários\n");
-        printf("3 - Serviços\n");
-        printf("4 - Profissionais disponíveis\n");
-        printf("5 - Cadastrar novo funcionário\n");
-        printf("6 - Remover funcionário\n");
-        printf("7 - Salvar dados\n");
-        printf("8 - Sair\n");
+        printf("3 - Editar horário\n");
+        printf("4 - Remover horário\n");
+        printf("5 - Serviços\n");
+        printf("6 - Profissionais disponíveis\n");
+        printf("7 - Cadastrar novo funcionário\n");
+        printf("8 - Remover funcionário\n");
+        printf("9 - Sair\n");
         printf("================\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
+        system("clear");
 
         // Executa a função correspondente à opção escolhida
         switch (opcao) {
             case 1: {
                 // Marcar horário com nome do cliente e serviço
-                int dia, hora;
-                char nomeCliente[100], servico[100];
-                printf("Digite o dia da semana (1-7): ");
-                scanf("%d", &dia);
-                printf("Digite a hora desejada (formato 24h): ");
-                scanf("%d", &hora);
-                printf("Digite o nome do cliente: ");
-                scanf("%s", nomeCliente);
-                printf("Digite o serviço desejado: ");
-                scanf("%s", servico);
-
-                arvoreHorarios = adicionarHorario(arvoreHorarios, dia, hora, nomeCliente, servico);
-                printf("Horário marcado com sucesso para %s para o serviço %s no dia %d às %d:00.\n", nomeCliente, servico, dia, hora);
+                getchar();
+                marcarHorario(&arvoreHorarios);
+                salvarDados(arvoreHorarios);
+                getchar();
                 break;
             }
             case 2:
-                mostrarHorarios(arvoreHorarios);
+                getchar();
+            if (arvoreHorarios == NULL) {
+                printf("Nenhum horário encontrado.\n");
+                }
+            else{
+                 mostrarHorarios(arvoreHorarios);
+                }
+                getchar();
                 break;
-            case 3:
-                listarServicos();
+            case 3: {
+                // Editar um horário existente
+                getchar();
+                int dia, hora;
+                printf("Digite o dia da semana do horário a ser editado (1-7): ");
+                scanf("%d", &dia);
+                printf("Digite a hora do horário a ser editado (formato 24h): ");
+                scanf("%d", &hora);
+                editarHorario(arvoreHorarios, dia, hora);
+                salvarDados(arvoreHorarios);
+                getchar();
                 break;
+            }
             case 4:
-                mostrarFuncionarios();
+                // Remover um horário específico
+                getchar();
+                removerHorarioUsuario(&arvoreHorarios);
+                salvarDados(arvoreHorarios);
+                getchar();
                 break;
-            case 5: {
+            case 5:
+                getchar();
+                listarServicos();
+                getchar();
+                break;
+            case 6:
+                getchar();
+                mostrarFuncionarios();
+                getchar();
+                break;
+            case 7: {
+                getchar();
                 char nome[50], cargo[50];
                 printf("Digite o nome do novo funcionário: ");
                 scanf("%s", nome);
@@ -65,35 +99,41 @@ int main() {
                 scanf("%s", cargo);
                 inserirFuncionario(nome, cargo);
                 printf("Funcionário cadastrado com sucesso.\n");
+                salvarFuncionarios();
+                getchar();
                 break;
             }
-            case 6: {
+            case 8: {
+                getchar();
                 Funcionario removido = removerFuncionario();
                 if (strcmp(removido.nome, "") != 0) {
                     printf("Funcionário removido: %s - %s\n", removido.nome, removido.cargo);
                 }
-                break;
-            }
-            case 7: {
-                FILE* arquivoHorarios = fopen("horarios.txt", "w");
-                if (arquivoHorarios == NULL) {
-                    printf("Erro ao abrir o arquivo para salvar os horários!\n");
-                } else {
-                    salvarHorarios(arvoreHorarios, arquivoHorarios);
-                    fclose(arquivoHorarios);
-                    printf("Horários salvos com sucesso!\n");
-                }
                 salvarFuncionarios();
+                getchar();
                 break;
             }
-            case 8:
-                printf("Volte sempre!\n");
+            case 9:
+                printf("Deseja sair do sistema?\n");
+                printf("[1] - SIM \n[2] - NAO\n");
+                printf("\n>>> ");
+                scanf("%d", &opcao);
+                if (opcao == 1)
+                {
+                    system("clear");
+                    printf("\n\n==========================================");
+                    printf("\n     OBRIGADO POR USAR NOSSO SISTEMA!!       ");
+                    printf("\n==========================================\n");
+                    exit(1);
+                }
                 break;
             default:
                 printf("Opção inválida, tente novamente.\n");
+                getchar();
         }
-    } while (opcao != 8);
+    } while (opcao != 9);
+    return opcao;
 
-    //liberarHorarios(arvoreHorarios);
+    liberarHorarios(arvoreHorarios); // Libera a memória alocada para a árvore de horários
     return 0;
 }

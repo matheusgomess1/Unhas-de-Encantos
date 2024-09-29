@@ -3,12 +3,25 @@
 #include <string.h>
 #include "/home/neto/Documentos/Projeto/include/horario.h"
 
-// Função para salvar todos os horários em um arquivo
+
+// Função para salvar os dados dos horários e funcionários em arquivos
+void salvarDados(Horario* arvoreHorarios) {
+    // Abrir o arquivo para salvar os horários
+    FILE* arquivoHorarios = fopen("horarios.txt", "w");
+    if (arquivoHorarios == NULL) {
+        printf("Erro ao abrir o arquivo para salvar os horários!\n");
+    } else {
+        salvarHorarios(arvoreHorarios, arquivoHorarios); // Salvar horários na árvore AVL no arquivo
+        fclose(arquivoHorarios);
+        printf("Horários salvos com sucesso!\n");
+    }
+}
+
+/// Função para salvar todos os horários em um arquivo
 void salvarHorarios(Horario* root, FILE* arquivo) {
     if (root != NULL) {
         salvarHorarios(root->esquerda, arquivo);
-        fprintf(arquivo, "Dia %d, Horario: %d:00, Cliente: %s, Serviço: %s\n", 
-            root->diaSemana, root->horario, root->nomeCliente, root->servico); // Salva dia e horário no arquivo
+        fprintf(arquivo, "Dia %d Hora %d Cliente %s Serviço %s\n", root->diaSemana, root->horario, root->nomeCliente, root->servico);
         salvarHorarios(root->direita, arquivo);
     }
 }
@@ -25,12 +38,92 @@ Horario* carregarHorario(Horario* root) {
     char nomeCliente[100];
     char servico[100];
 
-    while (fscanf(arquivo, "%d %d %s %s", &dia, &hora, nomeCliente, servico) == 4) {
+    // Print de depuração
+    printf("Carregando horários do arquivo...\n");
+
+    // Lê os horários do arquivo e adiciona na árvore
+    while (fscanf(arquivo, "Dia %d Hora %d Cliente %s Serviço %s", &dia, &hora, nomeCliente, servico) == 4) {
         root = adicionarHorario(root, dia, hora, nomeCliente, servico);
     }
 
     fclose(arquivo);
     return root;
+}
+
+// Função para remover um horário específico
+Horario* removerHorario(Horario* root, int dia, int hora) {
+    if (root == NULL)
+        return root;
+
+    // Busca o nó a ser removido
+    if (dia < root->diaSemana || (dia == root->diaSemana && hora < root->horario))
+        root->esquerda = removerHorario(root->esquerda, dia, hora);
+    else if (dia > root->diaSemana || (dia == root->diaSemana && hora > root->horario))
+        root->direita = removerHorario(root->direita, dia, hora);
+    else {
+        // Encontrou o nó a ser removido
+        if (root->esquerda == NULL || root->direita == NULL) {
+            Horario* temp = root->esquerda ? root->esquerda : root->direita;
+            free(root);
+            return temp;
+        } else {
+            // Nó com dois filhos: obter o menor valor na subárvore direita
+            Horario* temp = root->direita;
+            while (temp->esquerda != NULL)
+                temp = temp->esquerda;
+
+            // Copiar o valor do sucessor
+            root->diaSemana = temp->diaSemana;
+            root->horario = temp->horario;
+            strcpy(root->nomeCliente, temp->nomeCliente);
+            strcpy(root->servico, temp->servico);
+
+            // Remover o sucessor
+            root->direita = removerHorario(root->direita, temp->diaSemana, temp->horario);
+        }
+    }
+
+    // Balancear a árvore após a remoção
+    root = balancearNo(root);
+
+    // Atualizar o arquivo após a remoção
+    FILE* arquivo = fopen("horarios.txt", "w");
+    salvarHorarios(root, arquivo);
+    fclose(arquivo);
+
+    return root;
+}
+
+void editarHorario(Horario* root, int dia, int hora) {
+    if (root == NULL) {
+        printf("Horário não encontrado!\n");
+        return;
+    }
+
+    // Buscar o horário a ser editado
+    if (dia < root->diaSemana || (dia == root->diaSemana && hora < root->horario))
+        editarHorario(root->esquerda, dia, hora);
+    else if (dia > root->diaSemana || (dia == root->diaSemana && hora > root->horario))
+        editarHorario(root->direita, dia, hora);
+    else {
+        // Encontrou o horário a ser editado
+        printf("Horário encontrado! Editando...\n");
+        printf("Nome atual: %s, Serviço atual: %s\n", root->nomeCliente, root->servico);
+        
+        // Solicita novos dados para o horário
+        printf("Digite o novo nome do cliente: ");
+        scanf(" %[^\n]s", root->nomeCliente);
+
+        printf("Digite o novo serviço: ");
+        scanf(" %[^\n]s", root->servico);
+
+        printf("Horário atualizado com sucesso!\n");
+
+        // Salvar alterações no arquivo
+        FILE* arquivo = fopen("horarios.txt", "w");
+        salvarHorarios(root, arquivo);
+        fclose(arquivo);
+    }
 }
 
 // Função para criar um novo nó AVL com informações do cliente e serviço
@@ -174,9 +267,37 @@ void mostrarHorarios(Horario* root) {
     mostrarHorarios(root->esquerda);
 
     // Exibe os dados do nó atual
-    printf("Dia %d, Horario: %d:00, Cliente: %s, Serviço: %s\n", 
+    printf("Dia %d, Horário: %d:00, Cliente: %s, Serviço: %s\n",
            root->diaSemana, root->horario, root->nomeCliente, root->servico);
 
     // Percorre a subárvore da direita
     mostrarHorarios(root->direita);
+}
+
+// Função para remover um horário com base na entrada do usuário
+void removerHorarioUsuario(Horario** root) {
+    int dia, hora;
+    printf("Digite o dia da semana do horário a ser removido: ");
+    scanf("%d", &dia);
+    printf("Digite o horário a ser removido (formato 24h): ");
+    scanf("%d", &hora);
+
+    *root = removerHorario(*root, dia, hora);
+    printf("Horário removido com sucesso!\n");
+}
+
+// Função para liberar a memória alocada para a árvore de horários
+void liberarHorarios(Horario* root) {
+    if (root == NULL) {
+        return;
+    }
+
+    // Libera a subárvore à esquerda
+    liberarHorarios(root->esquerda);
+
+    // Libera a subárvore à direita
+    liberarHorarios(root->direita);
+
+    // Libera o nó atual
+    free(root);
 }
