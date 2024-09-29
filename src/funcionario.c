@@ -92,3 +92,38 @@ void mostrarFuncionarios() {
         printf("%d. %s - %s\n", i + 1, heap[i].nome, heap[i].cargo);
     }
 }
+
+// Função para salvar a heap de funcionários em um arquivo
+void salvarFuncionarios() {
+    FILE* arquivo = fopen("funcionarios.txt", "w");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para salvar os funcionários!\n");
+        return;
+    }
+
+    for (int i = 0; i < totalFuncionarios; i++) {
+        fprintf(arquivo, "%s %s\n", heap[i].nome, heap[i].cargo);
+    }
+
+    fclose(arquivo);
+    printf("Funcionários salvos com sucesso!\n");
+}
+
+// Função para carregar os funcionários de um arquivo para a heap
+void carregarFuncionarios() {
+    FILE* arquivo = fopen("funcionarios.txt", "r");
+    if (arquivo == NULL) {
+        printf("Nenhum funcionário salvo encontrado.\n");
+        return;
+    }
+
+    totalFuncionarios = 0;
+    while (fscanf(arquivo, "%s %s", heap[totalFuncionarios].nome, heap[totalFuncionarios].cargo) != EOF) {
+        totalFuncionarios++;
+        if (totalFuncionarios >= MAX_FUNCIONARIOS)
+            break;
+    }
+
+    fclose(arquivo);
+    printf("Funcionários carregados com sucesso!\n");
+}
