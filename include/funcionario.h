@@ -19,8 +19,4 @@ void salvarFuncionarios();
 int compararFuncionarios(Funcionario f1, Funcionario f2);
 void trocarFuncionarios(int i, int j);
 
-
-
-
-
 #endif
