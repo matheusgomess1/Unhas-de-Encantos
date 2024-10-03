@@ -32,3 +32,17 @@ void listarServicos(TabelaHash tabela[]) {
         }
     }
 }
+
+// Função para exibir insumos de um serviço específico
+void listarInsumosPorServico(TabelaHash tabela[], int idServico) {
+    for (int i = 0; i < NUM_SERVICOS; i++) {
+        if (tabela[i].id == idServico) {
+            printf("\nInsumos para o serviço: %s\n", tabela[i].nomeServico);
+            for (int j = 0; j < tabela[i].numInsumos; j++) {
+                printf("- %s\n", tabela[i].insumos[j]);
+            }
+            return;
+        }
+    }
+    printf("\nServiço não encontrado.\n");
+}
