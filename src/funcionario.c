@@ -127,13 +127,3 @@ void carregarFuncionarios() {
     fclose(arquivo);
     printf("Funcionários carregados com sucesso!\n");
 }
-
-void listarServicos() {
-    printf("\n===== LISTA DE SERVIÇOS =====\n");
-    printf("1 - Manicure\n");
-    printf("2 - Pedicure\n");
-    printf("3 - Spa das Mãos\n");
-    printf("4 - Alongamento de Unhas\n");
-    printf("5 - Nail Art\n");
-    printf("==============================\n");
-}

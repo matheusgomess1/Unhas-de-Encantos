@@ -3,15 +3,26 @@
 #include <string.h>
 #include "/home/neto/Documentos/Projeto/include/funcionario.h"
 #include "/home/neto/Documentos/Projeto/include/horario.h"
+#include "/home/neto/Documentos/Projeto/include/servico.h"
 
 // Função principal para executar o programa
 int main() {
+   
+    bemVindo();
+
+    // Definindo a tabela hash para armazenar os serviços e seus insumos
+    TabelaHash tabela[NUM_SERVICOS];
+
+    // Inicializando a tabela com os dados dos serviços
+    inicializarTabelaHash(tabela);
+    
     Horario* arvoreHorarios = NULL; // Ponteiro para a raiz da árvore AVL de horários
+    char opcaoStr[10];  // String para ler a opção do usuário
     int opcao = 0;
 
     // Inicializa a heap de funcionários e carrega dados de arquivo, se houver
-    
     carregarFuncionarios();
+
     arvoreHorarios = carregarHorario(arvoreHorarios);
 
     // Verificar se a árvore está carregada corretamente
@@ -25,7 +36,7 @@ int main() {
     do {
         // Exibe o menu principal
         system("clear");
-        printf("\n===== MENU =====\n");
+        printf("\n============= MENU =============\n");
         printf("1 - Marcar horário\n");
         printf("2 - Mostrar horários\n");
         printf("3 - Editar horário\n");
@@ -35,10 +46,18 @@ int main() {
         printf("7 - Cadastrar novo funcionário\n");
         printf("8 - Remover funcionário\n");
         printf("9 - Sair\n");
-        printf("================\n");
+        printf("================================\n");
         printf("Escolha uma opção: ");
-        scanf("%d", &opcao);
+        scanf("%s", opcaoStr);
         system("clear");
+
+        // Tenta converter a string para um número inteiro
+        if (sscanf(opcaoStr, "%d", &opcao) != 1) {
+            printf("Opção inválida, tente novamente.\n");
+            system("pause");           
+            continue;  // Reinicia o loop para exibir o menu novamente
+        }
+        
 
         // Executa a função correspondente à opção escolhida
         switch (opcao) {
@@ -50,7 +69,7 @@ int main() {
                 getchar();
                 break;
             }
-            case 2:
+            case 2:{
                 getchar();
             if (arvoreHorarios == NULL) {
                 printf("Nenhum horário encontrado.\n");
@@ -60,6 +79,7 @@ int main() {
                 }
                 getchar();
                 break;
+            }
             case 3: {
                 // Editar um horário existente
                 getchar();
@@ -73,23 +93,26 @@ int main() {
                 getchar();
                 break;
             }
-            case 4:
+            case 4:{
                 // Remover um horário específico
                 getchar();
                 removerHorarioUsuario(&arvoreHorarios);
                 salvarDados(arvoreHorarios);
                 getchar();
                 break;
-            case 5:
+            }
+            case 5:{
                 getchar();
-                listarServicos();
+                listarServicos(tabela);
                 getchar();
                 break;
-            case 6:
+            }
+            case 6:{
                 getchar();
                 mostrarFuncionarios();
                 getchar();
                 break;
+            }
             case 7: {
                 getchar();
                 char nome[50], cargo[50];
@@ -113,20 +136,21 @@ int main() {
                 getchar();
                 break;
             }
-            case 9:
+            case 9:{
+                int confirmacao;
                 printf("Deseja sair do sistema?\n");
-                printf("[1] - SIM \n[2] - NAO\n");
+                printf("[1] - SIM \n[2] - NÃO\n");
                 printf("\n>>> ");
-                scanf("%d", &opcao);
-                if (opcao == 1)
-                {
+                scanf("%d", &confirmacao);
+                if (confirmacao == 1) {
                     system("clear");
                     printf("\n\n==========================================");
                     printf("\n     OBRIGADO POR USAR NOSSO SISTEMA!!       ");
-                    printf("\n==========================================\n");
-                    exit(1);
+                    printf("\n==========================================\n\n");
+                    exit(0);
                 }
                 break;
+            }
             default:
                 printf("Opção inválida, tente novamente.\n");
                 getchar();
