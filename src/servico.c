@@ -49,7 +49,6 @@ void listarInsumosPorServico(TabelaHash tabela[], int idServico) {
 
 void bemVindo(){
     system("clear");
-    getchar();
     printf("\n\n==========================================");
     printf("\n SEJA BEM-VINDO(A) AO UNHAS DE ENCANTO!!    ");
     printf("\n==========================================\n\n");

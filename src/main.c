@@ -36,7 +36,7 @@ int main() {
     do {
         // Exibe o menu principal
         system("clear");
-        printf("\n========= MENU =========\n");
+        printf("\n============= MENU =============\n");
         printf("1 - Marcar horário\n");
         printf("2 - Mostrar horários\n");
         printf("3 - Editar horário\n");
@@ -46,7 +46,7 @@ int main() {
         printf("7 - Cadastrar novo funcionário\n");
         printf("8 - Remover funcionário\n");
         printf("9 - Sair\n");
-        printf("========================\n");
+        printf("================================\n");
         printf("Escolha uma opção: ");
         scanf("%s", opcaoStr);
         system("clear");
