@@ -7,12 +7,21 @@
 
 // Função principal para executar o programa
 int main() {
+   
+    bemVindo();
+    
+    // Definindo a tabela hash para armazenar os serviços e seus insumos
+    TabelaHash tabela[NUM_SERVICOS];
+
+    // Inicializando a tabela com os dados dos serviços
+    inicializarTabelaHash(tabela);
+    
     Horario* arvoreHorarios = NULL; // Ponteiro para a raiz da árvore AVL de horários
     int opcao = 0;
 
     // Inicializa a heap de funcionários e carrega dados de arquivo, se houver
-    
     carregarFuncionarios();
+
     arvoreHorarios = carregarHorario(arvoreHorarios);
 
     // Verificar se a árvore está carregada corretamente
