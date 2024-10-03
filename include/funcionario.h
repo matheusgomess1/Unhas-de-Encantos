@@ -11,7 +11,6 @@ typedef struct {
 
 void inicializarHeap();
 void carregarFuncionarios();
-void listarServicos();
 void mostrarFuncionarios();
 void inserirFuncionario(char nome[], char cargo[]);
 Funcionario removerFuncionario();
