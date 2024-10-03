@@ -3,6 +3,7 @@
 #include <string.h>
 #include "/home/neto/Documentos/Projeto/include/funcionario.h"
 #include "/home/neto/Documentos/Projeto/include/horario.h"
+#include "/home/neto/Documentos/Projeto/include/servico.h"
 
 // Função principal para executar o programa
 int main() {
