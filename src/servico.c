@@ -46,3 +46,13 @@ void listarInsumosPorServico(TabelaHash tabela[], int idServico) {
     }
     printf("\nServiço não encontrado.\n");
 }
+
+void bemVindo(){
+    system("clear");
+    getchar();
+    printf("\n\n==========================================");
+    printf("\n SEJA BEM-VINDO(A) AO UNHAS DE ENCANTO!!    ");
+    printf("\n==========================================\n\n");
+    getchar();
+    system("clear");
+}
