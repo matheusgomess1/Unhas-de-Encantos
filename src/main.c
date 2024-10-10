@@ -104,7 +104,6 @@ int main() {
             case 5:{
                 getchar();
                 listarServicos(tabela);
-                getchar();
                 break;
             }
             case 6:{
