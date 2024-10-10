@@ -18,7 +18,7 @@ typedef struct {
 
 // Funções do TAD servico
 void inicializarTabelaHash(TabelaHash tabela[]);
-void listarServicos();
+void listarServicos(TabelaHash tabela[]);
 void listarInsumosPorServico(TabelaHash tabela[], int idServico);
 void bemVindo();
 
