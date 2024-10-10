@@ -26,7 +26,9 @@ void listarServicos(TabelaHash tabela[]) {
         int idServico;
         printf("Digite o ID do serviço para ver os insumos: ");
         if (scanf("%d", &idServico) == 1) {
+            getchar();
             listarInsumosPorServico(tabela, idServico);
+            getchar();
         } else {
             printf("ID inválido. Por favor, tente novamente.\n");
         }
